@@ -1,0 +1,116 @@
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #030100;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #fdbf1c;
+}
+
+body {
+  scrollbar-gutter: stable;
+  background: url(../img/stars.png) 39px 39px, linear-gradient(#0f0f17 0%, #030100 30.35%, #191919 100%) fixed;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+}
+
+.header__title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 900;
+  margin: 0;
+  padding: 100px 0 0;
+  text-align: center;
+  font-size: 170px;
+  line-height: 140px;
+  color: #030100;
+}
+
+.header__fire{
+  animation: animation 1.5s ease-in-out infinite alternate;
+}
+
+.header__alternative-fire{
+  animation: animation 1s ease-in-out infinite alternate;
+}
+
+@keyframes animation {
+  0% {
+    text-shadow: 0 0 20px #fefcc9,
+    10px -10px 30px #feec85,
+    -20px -20px 40px #ffae34,
+    20px -40px 50px #ec760c,
+    -20px -60px 60px #cd4606,
+    0 -80px 70px #973716,
+    10px -90px 80px #451b0e;
+  }
+
+  100% {
+    text-shadow: 0 0 20px #fefcc9,
+    10px -10px 30px #fefcc9,
+    -20px -20px 40px #feec85,
+    22px -42px 60px #ffae34,
+    -22px -58px 50px #ec760c,
+    0 -82px 80px #cd4606,
+    10px -90px 80px  #973716;
+  }
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.account-table {
+  table-layout: fixed;
+  width: 239.5px;
+  border-collapse: collapse;
+  font-family: "Manrope";
+  text-align: center;
+  border: solid #fdbf1c;
+  border-width: 0 1px 1px 0;
+}
+
+.account-table__head {
+  display: block;
+  background: #f3f4f6;
+}
+
+.account-table__body {
+  display: block;
+  background: #fff;
+}
+
+.account-table__row {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  box-sizing: border-box;
+  border-top: 1px solid #e5e7eb;
+}
+
+.account-table__cell {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-table__link {
+  text-decoration: none;
+  color: #000;
+}
+
+.account-table__img {
+  height: 30px;
+}
