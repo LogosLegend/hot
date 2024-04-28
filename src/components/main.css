@@ -12,8 +12,7 @@
 
 body {
   scrollbar-gutter: stable;
-  background: url(../img/stars.png) 39px 39px, linear-gradient(#0f0f17 0%, #030100 30.35%, #191919 100%) fixed;
-  margin: 0 auto;
+  background: url(../images/stars.png) 39px 39px, linear-gradient(#0f0f17 0%, #030100 30.35%, #191919 100%) fixed;
   font-family: Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -42,7 +41,7 @@ body {
   animation: animation 1s ease-in-out infinite alternate;
 }
 
-@keyframes animation {
+/*@keyframes animation {
   0% {
     text-shadow: 0 0 20px #fefcc9,
     10px -10px 30px #feec85,
@@ -62,7 +61,7 @@ body {
     0 -82px 80px #cd4606,
     10px -90px 80px  #973716;
   }
-}
+}*/
 
 .content {
   display: flex;
@@ -71,7 +70,7 @@ body {
 
 .account-table {
   table-layout: fixed;
-  width: 239.5px;
+  width: 240px;
   border-collapse: collapse;
   font-family: "Manrope";
   text-align: center;
@@ -80,18 +79,16 @@ body {
 }
 
 .account-table__head {
-  display: block;
   background: #f3f4f6;
 }
 
 .account-table__body {
-  display: block;
   background: #fff;
 }
 
 .account-table__row {
   display: flex;
-  padding: 10px;
+  padding: 0 10px;
   justify-content: space-between;
   align-items: center;
   height: 45px;
@@ -99,11 +96,28 @@ body {
   border-top: 1px solid #e5e7eb;
 }
 
+.account-table__firedrop {
+  background: #6f6;
+}
+
 .account-table__cell {
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+}
+
+.account-table__involved {
+  width: 93px;
+}
+
+.account-table__tokenNumbers {
+  width: 44px;
+}
+
+.account-table__time {
+  width: 30px;
 }
 
 .account-table__link {
@@ -113,4 +127,34 @@ body {
 
 .account-table__img {
   height: 30px;
+}
+
+@media screen and (max-width: 1919px) {
+  .account-table {
+    width: calc((100vw - 4px) / 7);
+  }
+}
+
+@media screen and (max-width: 1679px) {
+  .account-table {
+    width: calc((100vw - 4px) / 6);
+  }
+}
+
+@media screen and (max-width: 1439px) {
+  .account-table {
+    width: calc((100vw - 4px) / 5);
+  }
+}
+
+@media screen and (max-width: 1219px) {
+  .account-table {
+    width: calc((100vw - 4px) / 4);
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .account-table {
+    width: calc((100vw - 4px) / 3);
+  }
 }
