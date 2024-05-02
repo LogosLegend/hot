@@ -3,14 +3,17 @@ import WalletCard from './WalletCard.js'
 
 function WalletCardList(props) {
 
-  const arrayTransactions = props.transactions;
+  const accounts = props.accountData.accounts;
+  const nearPrice = props.accountData.nearPrice;
 
   return (
     <>
-      {arrayTransactions.map((transaction) => (
+      {Object.keys(accounts).map((address) => (
         <WalletCard
-          key={transaction.cursor}
-          transactions={transaction.txns}
+          key={address}
+          address={address}
+          account={accounts[address]}
+          nearPrice={nearPrice}
         />
       ))}
     </>
