@@ -111,18 +111,44 @@ body {
 }
 
 .popup__textarea-container {
+  position: relative;
   height: 200px;
   border-radius: 10px;
   overflow: hidden;
 }
 
+.popup__textarea-copy {
+  position: absolute;
+  width: 400px;
+  border: 1px solid transparent;
+  height: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: 0;
+  /*pointer-events: none;*/
+  white-space: break-spaces;
+  word-wrap: break-word;
+  overflow-y: scroll;
+}
+
+.popup__textarea-copy::-webkit-scrollbar { width: 0; }
+
+.popup__textare-copy-text {
+  margin: 0;
+}
+
 .popup__textarea {
+  position: relative;
   width: 400px;
   height: 200px;
   padding: 10px;
   resize: none;
   border-radius: 10px;
   box-sizing: border-box;
+  background: transparent;
+  color: transparent;
+  caret-color: #000;
 }
 
 .popup__button-submit {

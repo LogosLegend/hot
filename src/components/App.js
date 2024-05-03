@@ -4,7 +4,7 @@ import Header from './Header.js';
 import WalletCardList from './WalletCardList.js';
 
 function App() {
-  const addresses = [
+  const accounts = [
     'wallet.tg',
     'wallet2.tg',
     'wallet3.tg'
