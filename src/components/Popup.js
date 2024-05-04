@@ -8,8 +8,27 @@ function Popup(props) {
   const [onMouseDown, setOnMouseDown] = useState();
 
   function handleChange(e) {
-    console.log(e.target.value)
-    const value = e.target.value.split('\n').map((str, i) => <p key={`line-${i}`} className="popup__textare-copy-text">{str}</p>); //Создание массива из подготовленных для вставки элементов 
+    const value = e.target.value.split('\n').map((str, i) => {
+      const strArr = str.split(/\s+/).filter(i => i);
+      if (!strArr.length) {
+        return <p key={`line-${i}`} className="popup__textare-copy-text">{str}</p>
+      } else {
+        const errStr = strArr.filter(str => !/^@?[A-Za-z0-9]+(\.tg)?$/.test(str));
+
+        let newStr = [str];
+        let aboba = [];
+        for (let j = 0; j < errStr.length; j++) {
+          console.log(newStr[newStr.length - 1])
+          newStr = newStr[newStr.length - 1].split(errStr[j])
+          console.log(newStr)
+          j == 0 && aboba.push(newStr[0]);
+          aboba.push(<span key={`line-${i}-err-${j}`}>{errStr[j]}</span>)
+          aboba.push(newStr[newStr.length - 1])
+        }
+        return <p key={`line-${i}`} className="popup__textare-copy-text">{aboba}</p>
+      }
+    }
+    ); //Создание массива из подготовленных для вставки элементов
     setAddresses(value)
   }
 

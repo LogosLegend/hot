@@ -113,6 +113,7 @@ body {
 .popup__textarea-container {
   position: relative;
   height: 200px;
+  font-size: 18px;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -120,22 +121,23 @@ body {
 .popup__textarea-copy {
   position: absolute;
   width: 400px;
-  border: 1px solid transparent;
   height: 200px;
-  padding: 10px;
+  padding: 11px;
   border-radius: 10px;
   box-sizing: border-box;
   margin: 0;
-  /*pointer-events: none;*/
   white-space: break-spaces;
   word-wrap: break-word;
   overflow-y: scroll;
 }
 
-.popup__textarea-copy::-webkit-scrollbar { width: 0; }
+.popup__textarea-copy::-webkit-scrollbar {
+  width: 0;
+}
 
 .popup__textare-copy-text {
   margin: 0;
+  min-height: 20.7px;
 }
 
 .popup__textarea {
