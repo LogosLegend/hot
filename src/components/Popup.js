@@ -10,6 +10,7 @@ function Popup(props) {
   function handleChange(e) {
     const value = e.target.value.split('\n').map((str, i) => {
       const strArr = str.split(/\s+/).filter(i => i);
+
       if (!strArr.length) {
         return <p key={`line-${i}`} className="popup__textare-copy-text">{str}</p>
       } else {
@@ -18,13 +19,13 @@ function Popup(props) {
         let newStr = [str];
         let aboba = [];
         for (let j = 0; j < errStr.length; j++) {
-          console.log(newStr[newStr.length - 1])
-          newStr = newStr[newStr.length - 1].split(errStr[j])
+          console.log(errStr)
+          newStr = newStr[newStr.length - 1].split(errStr[j], 2)
           console.log(newStr)
-          j == 0 && aboba.push(newStr[0]);
-          aboba.push(<span key={`line-${i}-err-${j}`}>{errStr[j]}</span>)
-          aboba.push(newStr[newStr.length - 1])
+          aboba.push(newStr[0], <span key={`line-${i}-err-${j}`} className="popup__error">{errStr[j]}</span>)
+          if (j === errStr.length - 1) { aboba.push(newStr[newStr.length - 1]) }
         }
+        console.log(aboba)
         return <p key={`line-${i}`} className="popup__textare-copy-text">{aboba}</p>
       }
     }

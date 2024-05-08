@@ -122,11 +122,12 @@ body {
   position: absolute;
   width: 400px;
   height: 200px;
-  padding: 11px;
+  padding: 10px; /*При масштабировании бордер перерасчитывается, а паддинг нет. Из-за этого внутренние размеры имеют отклонение на несколько пикселей*/
+  border: 1px solid transparent;
   border-radius: 10px;
   box-sizing: border-box;
   margin: 0;
-  white-space: break-spaces;
+  white-space: pre-wrap;
   word-wrap: break-word;
   overflow-y: scroll;
 }
@@ -137,7 +138,8 @@ body {
 
 .popup__textare-copy-text {
   margin: 0;
-  min-height: 20.7px;
+  min-height: 20px;
+  line-height: 20px;
 }
 
 .popup__textarea {
@@ -151,6 +153,16 @@ body {
   background: transparent;
   color: transparent;
   caret-color: #000;
+  line-height: 20px;
+}
+
+.popup__error {
+  background: #f00;
+}
+
+.popup__textarea::selection {
+  background: #3568D5;
+  color: #fff;
 }
 
 .popup__button-submit {

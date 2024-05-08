@@ -28,9 +28,9 @@ function WalletCardTableRow(props) {
   }
 
   function firedropNotification() {
-    if (involved === 'firedrop.hot.tg' && timeDifference < 600) {
+    if (involved === 'firedrop.hot.tg' && timeDifference < 1800) {
       return 'account-table__firedrop';
-    } else if (timeDifference < 600) {
+    } else if (timeDifference < 1800) {
       return 'account-table__claim';
     }
   }

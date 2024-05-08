@@ -15,9 +15,9 @@ function App() {
   const [tokens, setTokens] = useState([])
   const [accountData, setAccountData] = useState(JSON.parse(localStorage.getItem('accountData')) || {})
 
-  useEffect(() => {
-    // if (walletAddresses.length > 0) {
-    //   getAllData(walletAddresses).then((res) => {
+  useEffect(() => { //walletAddresses
+    // if (addresses.length > 0) {
+    //   getAllData(addresses).then((res) => {
     //     localStorage.setItem('accountData', JSON.stringify(res))
     //     setAccountData(res);
     //   })
