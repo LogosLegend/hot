@@ -2,35 +2,66 @@ import { useState, useEffect } from 'react';
 
 function Popup(props) {
 
-  const placeholder = "Вставьте адреса кошельков, в формате @wallet, wallet или wallet.tg, разделённые пробелом или переносом строки"
+  const placeholder = "Вставьте адреса кошельков, в формате @wallet, wallet или wallet.tg, разделённые пробелом или переносом строки";
+  const regexWordSeparator = /\s+|\S+/g;
+  const regexSpaceChar = /\s+/;
+  const regexError = /^@?[A-Za-z0-9_]{5,32}(\.tg)?$/;
+  const regexErrorSyntax = /^@?[A-Za-z0-9_]+(\.tg)?$/;
 
   const [addresses, setAddresses] = useState([]);
   const [onMouseDown, setOnMouseDown] = useState();
 
+  const [errorClassSyntax, setErrorClassSyntax] = useState('');
+  const [errorClassLength, setErrorClassLength] = useState('');
+
   function handleChange(e) {
-    const value = e.target.value.split('\n').map((str, i) => {
-      const strArr = str.split(/\s+/).filter(i => i);
+    const text = e.target.value;
+    let processedText = []; //Текст, преобразованный в массив с отображением ошибок
 
-      if (!strArr.length) {
-        return <p key={`line-${i}`} className="popup__textare-copy-text">{str}</p>
+    const errValues = { //Объект с классами ошибок
+      'syntax': '',
+      'length': '',
+      'bot': ''
+    };
+
+    let match;
+    while (match = regexWordSeparator.exec(text)) { //Разделение текста на слова и пробельные символы
+      const matchText = match[0];
+
+      const checkingSpaceChar = !regexSpaceChar.test(matchText); //Проверка на пробел
+      const checkingError = !regexError.test(matchText); //Проверка на ошибку в слове
+
+      if (checkingError && checkingSpaceChar) {
+        processedText.push(
+          <span key={`error-${regexWordSeparator.lastIndex}`} className={WhatMistake(matchText, errValues)}>
+            {matchText}
+          </span>
+        );
       } else {
-        const errStr = strArr.filter(str => !/^@?[A-Za-z0-9]+(\.tg)?$/.test(str));
-
-        let newStr = [str];
-        let aboba = [];
-        for (let j = 0; j < errStr.length; j++) {
-          console.log(errStr)
-          newStr = newStr[newStr.length - 1].split(errStr[j], 2)
-          console.log(newStr)
-          aboba.push(newStr[0], <span key={`line-${i}-err-${j}`} className="popup__error">{errStr[j]}</span>)
-          if (j === errStr.length - 1) { aboba.push(newStr[newStr.length - 1]) }
-        }
-        console.log(aboba)
-        return <p key={`line-${i}`} className="popup__textare-copy-text">{aboba}</p>
+        processedText.push(matchText);
       }
     }
-    ); //Создание массива из подготовленных для вставки элементов
-    setAddresses(value)
+
+    if (text[text.length - 1] === '\n') processedText.push(<br key={0} />) //Если последний символ является переносом строки, то он не будет добавлен, для этого нужен br
+
+    const content = <p className="popup__textare-copy-text">{processedText}</p>;
+
+    if (errValues.syntax) errValues.bot = ' popup__error-length-bot'; //Ошибка длины может быть 1 или 2 блоком, во 2 случае нужен класс
+
+    setAddresses(content)
+    setErrorClassSyntax(errValues.syntax);
+    setErrorClassLength(errValues.length + errValues.bot);
+  }
+
+  function WhatMistake(matchText, errValues) {
+    const checkingErrorSyntax = !regexErrorSyntax.test(matchText);
+
+    if (checkingErrorSyntax) {
+      errValues.syntax = 'popup__error_visible';
+      return 'span-error_syntax';
+    }
+    errValues.length = 'popup__error_visible';
+    return 'span-error_length';
   }
 
   function handleSubmit(e) {
@@ -66,7 +97,10 @@ function Popup(props) {
             <div className="popup__textarea-copy">{addresses}</div>
             <textarea className="popup__textarea" type="text" name="addresses" onChange={handleChange} placeholder={placeholder} spellcheck="false"></textarea>
           </div>
-          <span className={`error visible`}>Адрес может содержать только английские буквы, цифры и точку, а также быть не короче 5 и не длинее 32 символов</span>
+          <div className="popup__errors">
+            <span className={`popup__error popup__error-syntax ${errorClassSyntax}`}>🟥 Адрес может содержать символы a-z, 0-9 и _</span>
+            <span className={`popup__error popup__error-length ${errorClassLength}`}>🟧 Длина адреса должна быть от 5 до 32 символов</span>
+          </div>
           <button className="popup__button-submit" type="submit">Сохранить</button>
         </form>
       </div>

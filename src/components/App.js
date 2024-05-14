@@ -14,6 +14,7 @@ function App() {
   const [nearNumbers, setNearNumbers] = useState([])
   const [tokens, setTokens] = useState([])
   const [accountData, setAccountData] = useState(JSON.parse(localStorage.getItem('accountData')) || {})
+  // const [accountData, setAccountData] = useState({})
 
   useEffect(() => { //walletAddresses
     // if (addresses.length > 0) {
