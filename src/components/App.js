@@ -4,10 +4,6 @@ import Header from './Header.js';
 import WalletCardList from './WalletCardList.js';
 
 function App() {
-  const [nearPrice, setNearPrice] = useState([])
-  const [nearNumbers, setNearNumbers] = useState([])
-  const [tokens, setTokens] = useState([])
-
   const localStorageWalletAddresses = localStorage.getItem('walletAddresses');
   const [walletAddresses, setWalletAddresses] = useState(localStorageWalletAddresses ? JSON.parse(localStorageWalletAddresses) : [])
   
@@ -18,7 +14,7 @@ function App() {
   const messageIsNoAddress = 'Адрес не существует';
 
   useEffect(() => { //Если данных нет, но адреса есть
-    if (walletAddresses.length > 0 && Object.keys(accountData).length === 0) {
+    if (walletAddresses.length > 0 && !Object.keys(accountData).length) {
       getAllData(walletAddresses).then((res) => {
         localStorage.setItem('accountData', JSON.stringify(res))
         setAccountData(res);
@@ -38,11 +34,7 @@ function App() {
   }
 
   async function addWalletAddresses(addresses) {
-    const newWalletAddresses = addresses.filter(address => {
-      if (!walletAddresses.includes(address)) {
-        return address;
-      }
-    });
+    const newWalletAddresses = addresses.filter(address => !walletAddresses.includes(address));
 
     const updateWalletAddresses = walletAddresses.concat(newWalletAddresses);
     localStorage.setItem('walletAddresses', JSON.stringify(updateWalletAddresses));
@@ -103,7 +95,6 @@ function App() {
     };
 
     const isEmptyRes = Object.keys(res[0].account[0]).length;
-    console.log(res)
 
     if (isEmptyRes) {
       data.nearBalance = res[0].account[0].amount / 1e24;
@@ -111,7 +102,6 @@ function App() {
       data.hotBalance = (hotToken ? hotToken.amount : 0) / 1e6; //Получение кол-ва хота, преобразование в число с ,
       data.transactions = res[2].txns.length ? res[2].txns : messageIsNoTransactions;
     }
-    console.log(data)
     return data;
   }
 

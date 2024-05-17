@@ -26,8 +26,7 @@ function AddWalletsPopup(props) {
       'bot': ''
     };
 
-    let match;
-    while (match = regexWordSeparator.exec(text)) { //Разделение текста на слова и пробельные символы
+    for (let match; match = regexWordSeparator.exec(text);) { //Разделение текста на слова и пробельные символы
       const matchText = match[0];
 
       const checkingSpaceChar = !regexSpaceChar.test(matchText); //Проверка на пробел

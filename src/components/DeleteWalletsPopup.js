@@ -1,11 +1,7 @@
-import { useState } from 'react';
 import Popup from './Popup.js';
 
 function DeleteWalletsPopup(props) {
   const walletAddresses = props.walletAddresses;
-
-  const [addresses, setAddresses] = useState(''); //Чистый текст
-  const [modifiedText, setModifiedText] = useState([]); //Текст с отображением ошибок
 
   return (
     <Popup closeAllPopups={props.closeAllPopups}>

@@ -10,7 +10,6 @@ function WalletCardTableRow(props) {
   const timeDifference = nowTimeSeconds - transactionTimeSeconds; //Разница
 
   function timeAgo() {
-
     if (timeDifference > 86400) { //Транзакция совершена больше дня назад
       return `${Math.round(timeDifference / (86400))} д`;
     }
@@ -25,17 +24,11 @@ function WalletCardTableRow(props) {
   }
 
   function firedropNotification() {
-    if (timeDifference < 1800) {
-      if (involved === 'firedrop.hot.tg') {
-        return 'account-table__firedrop';
-      } else {
-        return 'account-table__claim';
-      }
-    }
+    if (timeDifference < 1800) return involved === 'firedrop.hot.tg' ? 'account-table__firedrop' : 'account-table__claim';
   }
 
   return (
-    <tr className={`account-table__row ${firedropNotification()}`}>
+    <tr className={`account-table__row ${firedropNotification() || ''}`}>
       <td className="account-table__cell account-table__involved">{involved}</td>
       <td className="account-table__cell account-table__tokenNumbers">{tokenNumbers}</td>
       <td className="account-table__cell"><img className="account-table__img" src={tokenImage} alt="token"/></td>
