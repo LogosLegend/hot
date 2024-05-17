@@ -26,6 +26,35 @@ body {
   -moz-text-size-adjust: 100%;
 }
 
+.button-close {
+  width: 30px;
+  height: 30px;
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+}
+
+.button-close:before, .button-close:after {
+  content: '';
+  width: 2px;
+  height: 22px;
+  background: #000;
+  position: absolute;
+  transform: rotate(45deg);
+}
+
+.button-close:after {
+  transform: rotate(135deg);
+}
+
+.button-close:hover:before, .button-close:hover:after {
+  background: #666;
+}
+
 .header {
   display: flex;
   justify-content: center;
@@ -129,14 +158,14 @@ body {
   margin: 0;
   white-space: break-spaces;
   word-wrap: break-word;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .popup__textarea-copy::-webkit-scrollbar {
   width: 0;
 }
 
-.popup__textare-copy-text {
+.popup__textarea-copy-text {
   margin: 0;
   min-height: 20px;
   line-height: 20px;
@@ -206,30 +235,6 @@ body {
   transform: translateY(30px);
 }
 
-@keyframes error-visible {
-  from {
-    transform: translateY(0px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-}
-
-@keyframes error-hide {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  to {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-}
-
 .popup__button-submit {
   width: 200px;
   height: 50px;
@@ -242,37 +247,56 @@ body {
   background: #25282b;
 }
 
+.popup__button-submit_disabled {
+  color: #fdc435;
+  background: #474d52;
+}
+
 .popup__button-close {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  text-decoration: none;
-  border: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
   left: 100%;
   bottom: 100%;
   transform: translate(-45px, 45px);
 }
 
-.popup__button-close:before, .popup__button-close:after {
-  content: '';
-  width: 2px;
-  height: 22px;
-  background: #000;
-  position: absolute;
-  transform: rotate(45deg);
+.popup__addresses {
+  position: relative;
+  height: 327px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  border: solid #e5e7eb; 
+  border-width: 0 1px;
 }
 
-.popup__button-close:after {
-  transform: rotate(135deg);
+.popup__address-container {
+  width: 250px;
+  min-height: 40px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
-.popup__button-close:hover:before, .popup__button-close:hover:after {
-  background: #666;
+.popup__address-container:first-child {
+  border-top: 1px solid #e5e7eb;
+}
+
+.popup__address {
+  width: 200px;
+  margin: 0;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popup__button-delete:before, .popup__button-delete:after {
+  height: 16px;
 }
 
 .content {
@@ -297,6 +321,18 @@ body {
 
 .account-table__body {
   background: #fff;
+}
+
+.account-table__body_error {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-table__notification_error {
+  color: #f00;
+  font-size: 22px;
 }
 
 .account-table__row {
@@ -325,7 +361,7 @@ body {
 }
 
 .account-table__involved {
-  width: 105px;
+  width: 122px;
 }
 
 .account-table__tokenNumbers {

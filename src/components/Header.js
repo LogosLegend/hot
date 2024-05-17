@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import Popup from './Popup.js';
+import AddWalletsPopup from './AddWalletsPopup.js';
+import DeleteWalletsPopup from './DeleteWalletsPopup.js';
 import fire from '../images/fire.png';
 
 function Header(props) {
   const accounts = props.accounts;
+  const walletAddresses = props.walletAddresses;
 
-  const [disabled, setDisabled] = useState(false);
-  const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
-  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [isOpenAddPopup, setIsOpenAddPopup] = useState(false);
+  const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
 
   useEffect(() => {
-
-    if (isAddPopupOpen || isDeletePopupOpen) {
+    if (isOpenAddPopup || isOpenDeletePopup) {
       document.addEventListener('keydown', handleEscClose);
 
       function handleEscClose(e) {
@@ -24,48 +24,43 @@ function Header(props) {
       }
     }
 
-  }, [isAddPopupOpen, isDeletePopupOpen])
+  }, [isOpenAddPopup, isOpenDeletePopup])
 
   function countingSumOfHot() {
     if (accounts !== undefined) {
       return +Object.keys(accounts).reduce((accumulator, account) => accumulator + +accounts[account].hotBalance, 0).toFixed(2);
     }
-    return '';
   }
 
   function handleAddPopupClick() {
-    setIsAddPopupOpen(true)
+    setIsOpenAddPopup(true)
   }
 
   function handleDeletePopupClick() {
-    setIsDeletePopupOpen(true)
+    if (walletAddresses.length) {
+      setIsOpenDeletePopup(true)
+    }
   }
 
   function closeAllPopups() {
-    setIsAddPopupOpen(false)
-    setIsDeletePopupOpen(false)
-  }
-
-  function handleButtonDisabled() {
-    setDisabled(true)
+    setIsOpenAddPopup(false)
+    setIsOpenDeletePopup(false)
   }
 
   return (
     <header className="header">
       <div className="header__buttons">
-        <button className="header__button-momo" disabled={disabled}></button>
-        <button className="header__button-add" disabled={disabled} onClick={handleAddPopupClick}></button>
-        <button className="header__button-delete" disabled={disabled} onClick={handleDeletePopupClick}></button>
+        <button className="header__button-momo"></button>
+        <button className="header__button-add" onClick={handleAddPopupClick}></button>
+        <button className="header__button-delete" disabled={!walletAddresses.length} onClick={handleDeletePopupClick}></button>
       </div>
       <div className="header__hot">
         <h1 className="header__title">HOT</h1>
         <img className="header__img" src={fire} alt="Иконка хот"/>
         <h2 className="header__subtitle">{countingSumOfHot()}</h2>
       </div>
-      {isAddPopupOpen && <Popup
-        closeAllPopups={closeAllPopups}
-        addWalletAddresses={props.addWalletAddresses}
-      />}
+      {isOpenAddPopup && <AddWalletsPopup closeAllPopups={closeAllPopups} addWalletAddresses={props.addWalletAddresses}/>}
+      {isOpenDeletePopup && walletAddresses.length !== 0 && <DeleteWalletsPopup closeAllPopups={closeAllPopups} deleteWalletAddresses={props.deleteWalletAddresses} walletAddresses={walletAddresses}/>}
     </header>
   );
 }

@@ -1,15 +1,12 @@
-import { useState, useEffect } from 'react';
-
 function WalletCardTableRow(props) {
-
   const transaction = props.transaction;
   const involved = transaction.involved_account_id || 'system';
-  const tokenNumbers = parseFloat((transaction.delta_amount / 1000000).toFixed(3))
+  const tokenNumbers = parseFloat((transaction.delta_amount / 1e6).toFixed(3))
   const tokenImage = transaction.ft.icon;
   const transactionTime = transaction.block_timestamp;
 
   const nowTimeSeconds = Math.floor(Date.now() / 1000); // Преобразование в секунды
-  const transactionTimeSeconds = Math.trunc(transactionTime / 1000000000); //10^9
+  const transactionTimeSeconds = Math.trunc(transactionTime / 1e9);
   const timeDifference = nowTimeSeconds - transactionTimeSeconds; //Разница
 
   function timeAgo() {
@@ -28,15 +25,17 @@ function WalletCardTableRow(props) {
   }
 
   function firedropNotification() {
-    if (involved === 'firedrop.hot.tg' && timeDifference < 1800) {
-      return 'account-table__firedrop';
-    } else if (timeDifference < 1800) {
-      return 'account-table__claim';
+    if (timeDifference < 1800) {
+      if (involved === 'firedrop.hot.tg') {
+        return 'account-table__firedrop';
+      } else {
+        return 'account-table__claim';
+      }
     }
   }
 
   return (
-    <tr className={`account-table__row ${firedropNotification() || ''}`}>
+    <tr className={`account-table__row ${firedropNotification()}`}>
       <td className="account-table__cell account-table__involved">{involved}</td>
       <td className="account-table__cell account-table__tokenNumbers">{tokenNumbers}</td>
       <td className="account-table__cell"><img className="account-table__img" src={tokenImage} alt="token"/></td>

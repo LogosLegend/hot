@@ -1,42 +1,57 @@
 import { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Header from './Header.js';
 import WalletCardList from './WalletCardList.js';
 
 function App() {
-  const addresses = [
-    'wallet.tg',
-    'wallet2.tg',
-    'wallet3.tg'
-  ];
-
   const [nearPrice, setNearPrice] = useState([])
   const [nearNumbers, setNearNumbers] = useState([])
   const [tokens, setTokens] = useState([])
-  const [accountData, setAccountData] = useState(JSON.parse(localStorage.getItem('accountData')) || {})
-  // const [accountData, setAccountData] = useState({})
 
-  useEffect(() => { //walletAddresses
-    // if (addresses.length > 0) {
-    //   getAllData(addresses).then((res) => {
-    //     localStorage.setItem('accountData', JSON.stringify(res))
-    //     setAccountData(res);
-    //   })
-    // }
+  const localStorageWalletAddresses = localStorage.getItem('walletAddresses');
+  const [walletAddresses, setWalletAddresses] = useState(localStorageWalletAddresses ? JSON.parse(localStorageWalletAddresses) : [])
+  
+  const localStorageAccountData = localStorage.getItem('accountData');
+  const [accountData, setAccountData] = useState(localStorageAccountData ? JSON.parse(localStorageAccountData) : {})
+  
+  const messageIsNoTransactions = 'Транзакций нет';
+  const messageIsNoAddress = 'Адрес не существует';
+
+  useEffect(() => { //Если данных нет, но адреса есть
+    if (walletAddresses.length > 0 && Object.keys(accountData).length === 0) {
+      getAllData(walletAddresses).then((res) => {
+        localStorage.setItem('accountData', JSON.stringify(res))
+        setAccountData(res);
+      })
+    }
   }, []);
 
-  async function addWalletAddresses(WalletAddresses) {
-    const newWalletAddresses = WalletAddresses.filter(address => {
-      if (!Object.keys(accountData.accounts).includes(address)) {
+  function deleteWalletAddresses(address) {
+    const newWalletAddresses = walletAddresses.filter(e => e !== address);
+    localStorage.setItem('walletAddresses', JSON.stringify(newWalletAddresses))
+    setWalletAddresses(newWalletAddresses)
+
+    const {accounts: {[address]: deleteAddress, ...restAddresses}, ...restData} = accountData;
+    const newAccountData = {accounts: restAddresses, ...restData}
+    localStorage.setItem('accountData', JSON.stringify(newAccountData))
+    setAccountData(newAccountData)
+  }
+
+  async function addWalletAddresses(addresses) {
+    const newWalletAddresses = addresses.filter(address => {
+      if (!walletAddresses.includes(address)) {
         return address;
       }
     });
+
+    const updateWalletAddresses = walletAddresses.concat(newWalletAddresses);
+    localStorage.setItem('walletAddresses', JSON.stringify(updateWalletAddresses));
+    setWalletAddresses(updateWalletAddresses)
 
     if (newWalletAddresses.length > 0) {
       getAllData(newWalletAddresses).then(res => {
         localStorage.setItem('accountData', JSON.stringify(res))
         setAccountData(res);
-        console.log(res);
       })
     }
   }
@@ -80,13 +95,24 @@ function App() {
     });
   }
 
-  function addProfileData(res, address) {
-    const object = {}
-    object.nearBalance = (res[0].account[0].amount / 1000000000000000000000000); //10^24
-    const tokens = res[1].inventory.fts;
-    object.hotBalance = ((tokens.find(token => token.contract === 'game.hot.tg').amount) / 1000000); //10^6 - Поиск контракта с хот, получение кол-ва хота, преобразование в число с ,
-    object.transactions = res[2].txns;
-    return object;
+  function addProfileData(res, address) {    
+    const data = {
+      nearBalance: 0,
+      hotBalance: 0,
+      transactions: messageIsNoAddress
+    };
+
+    const isEmptyRes = Object.keys(res[0].account[0]).length;
+    console.log(res)
+
+    if (isEmptyRes) {
+      data.nearBalance = res[0].account[0].amount / 1e24;
+      const hotToken = res[1].inventory.fts.find(token => token.contract === 'game.hot.tg'); //Поиск контракта с хот
+      data.hotBalance = (hotToken ? hotToken.amount : 0) / 1e6; //Получение кол-ва хота, преобразование в число с ,
+      data.transactions = res[2].txns.length ? res[2].txns : messageIsNoTransactions;
+    }
+    console.log(data)
+    return data;
   }
 
   function nearPriceRequest() {
@@ -106,12 +132,13 @@ function App() {
     }
   }
 
-
   return (
     <>
       <Header
         accounts={accountData.accounts}
+        walletAddresses={walletAddresses}
         addWalletAddresses={addWalletAddresses}
+        deleteWalletAddresses={deleteWalletAddresses}
       />
       <main className="content">
         {creatingWalletCards()}
