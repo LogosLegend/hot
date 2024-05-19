@@ -101,7 +101,7 @@ function AddWalletsPopup(props) {
       <form className="popup__form" action="#" name="hot-form" onSubmit={handleSubmit}>
         <div className="popup__textarea-container">
           <div className="popup__textarea-copy">{modifiedText}</div>
-          <textarea className="popup__textarea" type="text" name="addresses" onChange={handleChange} placeholder={placeholder} spellcheck="false"></textarea>
+          <textarea className="popup__textarea" type="text" name="addresses" onChange={handleChange} placeholder={placeholder} spellCheck="false"></textarea>
         </div>
         <div className="popup__errors">
           <span className={`popup__error popup__error-syntax ${errorClassSyntax}`}>🟥 Адрес может содержать символы a-z, 0-9 и _</span>

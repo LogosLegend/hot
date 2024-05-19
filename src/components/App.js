@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
 import Header from './Header.js';
 import WalletCardList from './WalletCardList.js';
 
@@ -13,13 +12,10 @@ function App() {
   const messageIsNoTransactions = 'Транзакций нет';
   const messageIsNoAddress = 'Адрес не существует';
 
+  const [preloaderHide, setPreloaderHide] = useState(true);
+
   useEffect(() => { //Если данных нет, но адреса есть
-    if (walletAddresses.length > 0 && !Object.keys(accountData).length) {
-      getAllData(walletAddresses).then((res) => {
-        localStorage.setItem('accountData', JSON.stringify(res))
-        setAccountData(res);
-      })
-    }
+    if (walletAddresses.length > 0 && !Object.keys(accountData).length) setData(walletAddresses);
   }, []);
 
   function deleteWalletAddresses(address) {
@@ -38,14 +34,18 @@ function App() {
 
     const updateWalletAddresses = walletAddresses.concat(newWalletAddresses);
     localStorage.setItem('walletAddresses', JSON.stringify(updateWalletAddresses));
-    setWalletAddresses(updateWalletAddresses)
+    setWalletAddresses(updateWalletAddresses);
 
-    if (newWalletAddresses.length > 0) {
-      getAllData(newWalletAddresses).then(res => {
-        localStorage.setItem('accountData', JSON.stringify(res))
-        setAccountData(res);
-      })
-    }
+    if (newWalletAddresses.length > 0) setData(newWalletAddresses);
+  }
+
+  function setData(addresses) {
+    setPreloaderHide(false);
+    getAllData(addresses).then(res => {
+      localStorage.setItem('accountData', JSON.stringify(res))
+      setAccountData(res);
+      setPreloaderHide(true);
+    })
   }
 
   async function getAllData(addresses) {
@@ -125,12 +125,15 @@ function App() {
   return (
     <>
       <Header
-        accounts={accountData.accounts}
+        accountData={accountData.accounts}
         walletAddresses={walletAddresses}
         addWalletAddresses={addWalletAddresses}
         deleteWalletAddresses={deleteWalletAddresses}
       />
       <main className="content">
+        <div className={`preloader ${preloaderHide ? 'preloader_hidden' : ''}`}>
+          <div className="preloader__circle"></div>
+        </div>
         {creatingWalletCards()}
       </main>
     </>

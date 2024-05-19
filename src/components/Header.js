@@ -4,7 +4,8 @@ import DeleteWalletsPopup from './DeleteWalletsPopup.js';
 import fire from '../images/fire.png';
 
 function Header(props) {
-  const accounts = props.accounts;
+  const accountData = props.accountData;
+  const accountAddresses = accountData ? Object.keys(accountData) : [];
   const walletAddresses = props.walletAddresses;
 
   const [isOpenAddPopup, setIsOpenAddPopup] = useState(false);
@@ -27,8 +28,8 @@ function Header(props) {
   }, [isOpenAddPopup, isOpenDeletePopup])
 
   function countingSumOfHot() {
-    if (accounts !== undefined) {
-      return +Object.keys(accounts).reduce((accumulator, account) => accumulator + +accounts[account].hotBalance, 0).toFixed(2);
+    if (accountAddresses.length) {
+      return +accountAddresses.reduce((accumulator, account) => accumulator + +accountData[account].hotBalance, 0).toFixed(2);
     }
   }
 
