@@ -8,6 +8,9 @@ function Header(props) {
   const accountAddresses = accountData ? Object.keys(accountData) : [];
   const walletAddresses = props.walletAddresses;
 
+  const isWalletAddressesExist = accountAddresses.length;
+  const isButtonsDisabled = !isWalletAddressesExist || props.buttonsDisabled;
+  console.log(isButtonsDisabled)
   const [isOpenAddPopup, setIsOpenAddPopup] = useState(false);
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
 
@@ -16,9 +19,7 @@ function Header(props) {
       document.addEventListener('keydown', handleEscClose);
 
       function handleEscClose(e) {
-
         if (e.key === 'Escape') {
-
           closeAllPopups();
           document.removeEventListener('keydown', handleEscClose);
         }
@@ -28,19 +29,23 @@ function Header(props) {
   }, [isOpenAddPopup, isOpenDeletePopup])
 
   function countingSumOfHot() {
-    if (accountAddresses.length) {
+    if (isWalletAddressesExist) {
       return +accountAddresses.reduce((accumulator, account) => accumulator + +accountData[account].hotBalance, 0).toFixed(2);
     }
   }
 
+  function handleReloadClick() {
+    if (!isButtonsDisabled) {
+      props.reload(walletAddresses);
+    }
+  }
+
   function handleAddPopupClick() {
-    setIsOpenAddPopup(true)
+    if (!isButtonsDisabled) setIsOpenAddPopup(true);
   }
 
   function handleDeletePopupClick() {
-    if (walletAddresses.length) {
-      setIsOpenDeletePopup(true)
-    }
+    if (!isButtonsDisabled) setIsOpenDeletePopup(true);
   }
 
   function closeAllPopups() {
@@ -51,9 +56,9 @@ function Header(props) {
   return (
     <header className="header">
       <div className="header__buttons">
-        <button className="header__button-momo"></button>
-        <button className="header__button-add" onClick={handleAddPopupClick}></button>
-        <button className="header__button-delete" disabled={!walletAddresses.length} onClick={handleDeletePopupClick}></button>
+        <button className="header__button header__button-reload" disabled={isButtonsDisabled} onClick={handleReloadClick}></button>
+        <button className="header__button header__button-add" disabled={isButtonsDisabled} onClick={handleAddPopupClick}></button>
+        <button className="header__button header__button-delete" disabled={isButtonsDisabled} onClick={handleDeletePopupClick}></button>
       </div>
       <div className="header__hot">
         <h1 className="header__title">HOT</h1>

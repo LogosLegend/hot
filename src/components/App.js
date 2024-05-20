@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from './Header.js';
 import WalletCardList from './WalletCardList.js';
 
@@ -12,11 +12,8 @@ function App() {
   const messageIsNoTransactions = 'Транзакций нет';
   const messageIsNoAddress = 'Адрес не существует';
 
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
   const [preloaderHide, setPreloaderHide] = useState(true);
-
-  useEffect(() => { //Если данных нет, но адреса есть
-    if (walletAddresses.length > 0 && !Object.keys(accountData).length) setData(walletAddresses);
-  }, []);
 
   function deleteWalletAddresses(address) {
     const newWalletAddresses = walletAddresses.filter(e => e !== address);
@@ -41,10 +38,12 @@ function App() {
 
   function setData(addresses) {
     setPreloaderHide(false);
+    setButtonsDisabled(true);
     getAllData(addresses).then(res => {
       localStorage.setItem('accountData', JSON.stringify(res))
       setAccountData(res);
       setPreloaderHide(true);
+      setButtonsDisabled(false);
     })
   }
 
@@ -129,6 +128,8 @@ function App() {
         walletAddresses={walletAddresses}
         addWalletAddresses={addWalletAddresses}
         deleteWalletAddresses={deleteWalletAddresses}
+        reload={setData}
+        buttonsDisabled={buttonsDisabled}
       />
       <main className="content">
         <div className={`preloader ${preloaderHide ? 'preloader_hidden' : ''}`}>

@@ -23,7 +23,7 @@ function WalletCardTableRow(props) {
     }
   }
 
-  function firedropNotification() {
+  function firedropNotification() { //Инициатор транзакции
     if (timeDifference < 1800) return involved === 'firedrop.hot.tg' ? 'account-table__firedrop' : 'account-table__claim';
   }
 
