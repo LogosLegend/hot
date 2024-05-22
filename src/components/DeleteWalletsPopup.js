@@ -1,6 +1,6 @@
 import Popup from './Popup.js';
 
-function DeleteWalletsPopup(props) {
+export default function DeleteWalletsPopup(props) {
   const walletAddresses = props.walletAddresses;
 
   return (
@@ -16,5 +16,3 @@ function DeleteWalletsPopup(props) {
     </Popup>
   );
 }
-
-export default DeleteWalletsPopup;

@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import Header from './Header.js';
 import WalletCardList from './WalletCardList.js';
+import AccountErrorPopup from './AccountErrorPopup.js';
 
-function App() {
-  const localStorageWalletAddresses = localStorage.getItem('walletAddresses');
-  const [walletAddresses, setWalletAddresses] = useState(localStorageWalletAddresses ? JSON.parse(localStorageWalletAddresses) : [])
-  
+export default function App() {
   const localStorageAccountData = localStorage.getItem('accountData');
   const [accountData, setAccountData] = useState(localStorageAccountData ? JSON.parse(localStorageAccountData) : {})
   
@@ -13,44 +11,45 @@ function App() {
   const messageIsNoAddress = 'Адрес не существует';
 
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
-  const [preloaderHide, setPreloaderHide] = useState(true);
+  const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
+
+  const [isOpenErrorPopup, setIsOpenErrorPopup] = useState(false);
+  const [errorAddresses, setErrorAddresses] = useState([]);
 
   function deleteWalletAddresses(address) {
-    const newWalletAddresses = walletAddresses.filter(e => e !== address);
-    localStorage.setItem('walletAddresses', JSON.stringify(newWalletAddresses))
-    setWalletAddresses(newWalletAddresses)
-
-    const {accounts: {[address]: deleteAddress, ...restAddresses}, ...restData} = accountData;
+    const {accounts: {[address]: deleteAddress, ...restAddresses}, ...restData} = accountData; //Удаление адреса с помощью деструктурирующего присваивания
+    //Объявляются 3 переменные {}, deleteAddress - адрес который удаляется, restAddresses - остальные адреса, restData - остальные данные
     const newAccountData = {accounts: restAddresses, ...restData}
+    //Формируется объект, без deleteAddress.
+
     localStorage.setItem('accountData', JSON.stringify(newAccountData))
     setAccountData(newAccountData)
   }
 
   async function addWalletAddresses(addresses) {
-    const newWalletAddresses = addresses.filter(address => !walletAddresses.includes(address));
-
-    const updateWalletAddresses = walletAddresses.concat(newWalletAddresses);
-    localStorage.setItem('walletAddresses', JSON.stringify(updateWalletAddresses));
-    setWalletAddresses(updateWalletAddresses);
+    const walletAddresses = accountData.accounts ? Object.keys(accountData.accounts) : [];
+    const newWalletAddresses = addresses.filter(address => !walletAddresses.includes(address)); //Проверка на существующие одинаковые значения
 
     if (newWalletAddresses.length > 0) setData(newWalletAddresses);
   }
 
   function setData(addresses) {
-    setPreloaderHide(false);
+    setIsPreloaderVisible(true);
     setButtonsDisabled(true);
+
     getAllData(addresses).then(res => {
       localStorage.setItem('accountData', JSON.stringify(res))
       setAccountData(res);
-      setPreloaderHide(true);
+
+      setIsPreloaderVisible(false);
       setButtonsDisabled(false);
     })
   }
 
-  async function getAllData(addresses) {
+  async function getAllData(addresses) { //Формирование объекта со всеми данными
+    const nearPrice = await nearPriceRequest().then(res => {return res.stats[0].near_price}).catch(() => {return accountData.nearPrice || 0});
     const data = {
-      nearPrice: await nearPriceRequest(),
-      timestamp: Date.now(),
+      nearPrice: nearPrice,
       accounts: {
         ...accountData.accounts,
         ...await getDataAllProfiles(addresses)
@@ -59,34 +58,50 @@ function App() {
     return data;
   }
 
-  async function getDataAllProfiles(addresses) {
-    let data = {};
+async function getDataAllProfiles(addresses) { //Сбор данных всех адресов в 1 объект
+  let data = {};
+  let error = [];
 
-    for (let i = 0; i < addresses.length; i++) {
-      await sleep(350 * i)
+  async function assemblingData(i) {
+    try {
+      const res = await requestData(addresses[i]);
       data = {
         ...data,
-        [addresses[i]]: await dataRequest(addresses[i]) //Создание аккаунта с данными
-      }
+        [addresses[i]]: res
+      };
+    } catch (err) {
+      error.push(addresses[i]);
     }
-    return data
+  };
+
+  for (let i = 0; i < addresses.length; i++) {
+    await sleep(500); //Обязательная задержка, иначе будет 429
+    await assemblingData(i);
   }
 
-  function sleep(ms) {
+  if (error.length) {
+    setErrorAddresses(error);
+    setIsOpenErrorPopup(true);
+  }
+
+  return data;
+}
+
+  function sleep(ms) { //Задержка
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   
-  function dataRequest(address) {
+  function requestData(address) { //Получение данных адреса
     return Promise.all([
       fetch(`https://api3.nearblocks.io/v1/account/${address}`).then((res) => checkResult(res)),
       fetch(`https://api3.nearblocks.io/v1/account/${address}/inventory`).then((res) => checkResult(res)),
       fetch(`https://api3.nearblocks.io/v1/account/${address}/ft-txns?order=desc&page=1&per_page=4`).then((res) => checkResult(res))
     ]).then(res => {
       return addProfileData(res, address)
-    });
+    })
   }
 
-  function addProfileData(res, address) {    
+  function addProfileData(res, address) { //Формирование объекта с необходимыми данными адреса
     const data = {
       nearBalance: 0,
       hotBalance: 0,
@@ -104,8 +119,8 @@ function App() {
     return data;
   }
 
-  function nearPriceRequest() {
-    return fetch('https://api3.nearblocks.io/v1/stats').then((res) => checkResult(res)).then(res => {return +res.stats[0].near_price})
+  function nearPriceRequest() { //Получение текущей цены near
+    return fetch('https://api3.nearblocks.io/v1/stats').then((res) => checkResult(res))
   }
   
   function checkResult(res) {
@@ -113,6 +128,22 @@ function App() {
       return res.json();
     }
     return Promise.reject(res.status);
+  }
+
+  function creatingPreloader() {
+    if (isPreloaderVisible) {
+      return (
+        <div className="preloader">
+          <div className="preloader__circle"></div>
+        </div>
+      )
+    }
+  }
+
+  function creatingAccountError() {
+    if (isOpenErrorPopup) {
+      return <AccountErrorPopup setIsOpenErrorPopup={setIsOpenErrorPopup} errorAddresses={errorAddresses}/>
+    }
   }
 
   function creatingWalletCards() {
@@ -125,20 +156,17 @@ function App() {
     <>
       <Header
         accountData={accountData.accounts}
-        walletAddresses={walletAddresses}
         addWalletAddresses={addWalletAddresses}
         deleteWalletAddresses={deleteWalletAddresses}
         reload={setData}
         buttonsDisabled={buttonsDisabled}
+        setIsOpenErrorPopup={setIsOpenErrorPopup}
       />
       <main className="content">
-        <div className={`preloader ${preloaderHide ? 'preloader_hidden' : ''}`}>
-          <div className="preloader__circle"></div>
-        </div>
+        {creatingPreloader()}
+        {creatingAccountError()}
         {creatingWalletCards()}
       </main>
     </>
   );
 }
-
-export default App;

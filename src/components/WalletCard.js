@@ -1,6 +1,6 @@
 import WalletCardTableRow from './WalletCardTableRow.js';
 
-function WalletCard(props) {
+export default function WalletCard(props) {
   const address = props.address;
   const account = props.account;
   const nearPrice = props.nearPrice;
@@ -49,5 +49,3 @@ function WalletCard(props) {
     </table>
   );
 }
-
-export default WalletCard;

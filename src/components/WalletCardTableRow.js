@@ -1,4 +1,4 @@
-function WalletCardTableRow(props) {
+export default function WalletCardTableRow(props) {
   const transaction = props.transaction;
   const involved = transaction.involved_account_id || 'system';
   const tokenNumbers = parseFloat((transaction.delta_amount / 1e6).toFixed(3))
@@ -36,5 +36,3 @@ function WalletCardTableRow(props) {
     </tr>
   );
 }
-
-export default WalletCardTableRow;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Popup from './Popup.js';
 
-function AddWalletsPopup(props) {
+export default function AddWalletsPopup(props) {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const placeholder = "Вставьте адреса кошельков, в формате @wallet, wallet или wallet.tg, разделённые пробелом или переносом строки";
 
@@ -26,7 +26,7 @@ function AddWalletsPopup(props) {
       'bot': ''
     };
 
-    for (let match; match = regexWordSeparator.exec(text);) { //Разделение текста на слова и пробельные символы
+    for (let match; (match = regexWordSeparator.exec(text));) { //Разделение текста на слова и пробельные символы
       const matchText = match[0];
 
       const checkingSpaceChar = !regexSpaceChar.test(matchText); //Проверка на пробел
@@ -112,5 +112,3 @@ function AddWalletsPopup(props) {
     </Popup>
   );
 }
-
-export default AddWalletsPopup;

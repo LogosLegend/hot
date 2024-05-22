@@ -1,6 +1,6 @@
 import WalletCard from './WalletCard.js'
 
-function WalletCardList(props) {
+export default function WalletCardList(props) {
   const accounts = props.accountData.accounts;
   const nearPrice = props.accountData.nearPrice;
 
@@ -17,5 +17,3 @@ function WalletCardList(props) {
     </>
   );
 }
-
-export default WalletCardList;
