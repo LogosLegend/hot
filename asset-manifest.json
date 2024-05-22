@@ -1,18 +1,19 @@
 {
   "files": {
-    "main.css": "/hot/static/css/main.3c87015b.css",
-    "main.js": "/hot/static/js/main.237546d4.js",
+    "main.css": "/hot/static/css/main.8b769cb9.css",
+    "main.js": "/hot/static/js/main.2c32601c.js",
     "static/js/453.4f4ca428.chunk.js": "/hot/static/js/453.4f4ca428.chunk.js",
     "static/media/Manrope-Regular.ttf": "/hot/static/media/Manrope-Regular.a9b9e09fe6b69741f316.ttf",
-    "static/media/addUser.svg": "/hot/static/media/addUser.5e5c42cf171b64bcc704.svg",
-    "static/media/trash.svg": "/hot/static/media/trash.61638a3f3ae4242d22cf.svg",
+    "static/media/addUser.svg": "/hot/static/media/addUser.18c5b563ba50e68890f9.svg",
+    "static/media/trash.svg": "/hot/static/media/trash.34ab7f306fb91c998339.svg",
     "index.html": "/hot/index.html",
-    "main.3c87015b.css.map": "/hot/static/css/main.3c87015b.css.map",
-    "main.237546d4.js.map": "/hot/static/js/main.237546d4.js.map",
+    "static/media/spin.svg": "/hot/static/media/spin.e131f005b59e4ef07fb6.svg",
+    "main.8b769cb9.css.map": "/hot/static/css/main.8b769cb9.css.map",
+    "main.2c32601c.js.map": "/hot/static/js/main.2c32601c.js.map",
     "453.4f4ca428.chunk.js.map": "/hot/static/js/453.4f4ca428.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3c87015b.css",
-    "static/js/main.237546d4.js"
+    "static/css/main.8b769cb9.css",
+    "static/js/main.2c32601c.js"
   ]
 }
