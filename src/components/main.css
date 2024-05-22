@@ -524,10 +524,6 @@ body {
     border-radius: 20px;
   }
 
-  .header__title {
-    display: none;
-  }
-
   .popup__container {
     width: 340px;
     height: 440px;
@@ -558,12 +554,24 @@ body {
   }
 }
 
+@media screen and (max-width: 620px) {
+  .header__hot {
+    border-radius: 14px;
+  }
+}
+
 @media screen and (max-width: 520px) {
   .account-table {
     width: calc((100vw - var(--scroll-width)) / 1);
   }
 
   .header__hot {
-    border-radius: 14px;
+    border-radius: 10px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .header__title {
+    display: none;
   }
 }
