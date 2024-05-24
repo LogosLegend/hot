@@ -29,7 +29,6 @@ body {
 .button-close {
   width: 30px;
   height: 30px;
-  text-decoration: none;
   border: none;
   padding: 0;
   display: flex;
@@ -125,7 +124,6 @@ body {
 .header__button {
   width: 40px;
   height: 40px;
-  text-decoration: none;
   border: none;
   padding: 0;
   margin: 5px 0;
@@ -299,7 +297,6 @@ body {
 .popup__button-submit {
   width: 200px;
   height: 50px;
-  text-decoration: none;
   border: none;
   padding: 0;
   margin: 10px 0 0;
@@ -457,6 +454,8 @@ body {
 
   .header__hot {
     height: calc(100vw / (1840 / 120));
+    padding: calc(100vw / (1840 / 10)) calc(100vw / (1840 / 20));
+    border-radius: calc(100vw / (1840 / 24));
   }
 
   .header__title, .header__subtitle {
@@ -471,18 +470,13 @@ body {
   .header__button {
     width: calc(100vw / (1840 / 40));
     height: calc(100vw / (1840 / 40));
+    border-radius: calc(100vw / (1840 / 10));
   }
 }
 
 @media screen and (max-width: 1570px) {
   .account-table {
     width: calc((100vw - var(--scroll-width)) / 5);
-  }
-}
-
-@media screen and (max-width: 1300px) {
-  .account-table {
-    width: calc((100vw - var(--scroll-width)) / 4);
   }
 
   .header__buttons {
@@ -492,7 +486,14 @@ body {
   .header__button {
     width: 40px;
     height: 40px;
+    border-radius: 10px;
     margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .account-table {
+    width: calc((100vw - var(--scroll-width)) / 4);
   }
 }
 
@@ -507,21 +508,12 @@ body {
     width: calc((100vw - var(--scroll-width)) / 2);
   }
 
-  .header__button {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
-
   .header {
     justify-content: flex-end;
   }
 
   .header__hot {
     margin-right: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 20px;
   }
 
   .popup__container {
@@ -554,19 +546,15 @@ body {
   }
 }
 
-@media screen and (max-width: 620px) {
-  .header__hot {
-    border-radius: 14px;
-  }
-}
-
 @media screen and (max-width: 520px) {
   .account-table {
     width: calc((100vw - var(--scroll-width)) / 1);
   }
 
-  .header__hot {
-    border-radius: 10px;
+  .header__button {
+    width: 30px;
+    height: 30px;
+    border-radius: 7.5px;
   }
 }
 
