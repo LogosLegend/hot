@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/hot/static/css/main.23282fa4.css",
-    "main.js": "/hot/static/js/main.2c32601c.js",
+    "main.css": "/hot/static/css/main.f0ad16be.css",
+    "main.js": "/hot/static/js/main.10a13b3d.js",
     "static/js/453.4f4ca428.chunk.js": "/hot/static/js/453.4f4ca428.chunk.js",
     "static/media/Manrope-Regular.ttf": "/hot/static/media/Manrope-Regular.a9b9e09fe6b69741f316.ttf",
     "static/media/addUser.svg": "/hot/static/media/addUser.73ba06ad1b135250335f.svg",
     "static/media/trash.svg": "/hot/static/media/trash.446dcbaffb95c85bb813.svg",
     "index.html": "/hot/index.html",
     "static/media/spin.svg": "/hot/static/media/spin.379252d3a1ea0b90da80.svg",
-    "main.23282fa4.css.map": "/hot/static/css/main.23282fa4.css.map",
-    "main.2c32601c.js.map": "/hot/static/js/main.2c32601c.js.map",
+    "main.f0ad16be.css.map": "/hot/static/css/main.f0ad16be.css.map",
+    "main.10a13b3d.js.map": "/hot/static/js/main.10a13b3d.js.map",
     "453.4f4ca428.chunk.js.map": "/hot/static/js/453.4f4ca428.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.23282fa4.css",
-    "static/js/main.2c32601c.js"
+    "static/css/main.f0ad16be.css",
+    "static/js/main.10a13b3d.js"
   ]
 }
