@@ -148,20 +148,20 @@ body {
 .header__hot {
   background-color: #f7b302;
   border-radius: 24px;
-  height: 120px;
-  padding: 10px 20px;
+  height: 140px;
+  padding: 0 20px;
+  box-sizing: border-box;
   position: relative;
   margin: 5px 0;
   display: flex;
+  align-items: center;
 }
 
 .header__title, .header__subtitle {
   font-family: sans-serif;
   font-weight: 900;
   margin: 0;
-  text-align: center;
   font-size: 120px;
-  line-height: 1;
   color: #25282b;
 }
 
@@ -355,7 +355,6 @@ body {
   height: 22px;
   margin: 0;
   font-size: 18px;
-  line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -375,7 +374,6 @@ body {
   width: calc((100vw - var(--scroll-width)) / 7);
   border-collapse: collapse;
   font-size: 18px;
-  text-align: center;
   border: solid #fdbf1c;
   border-width: 0 1px 1px 0;
 }
@@ -453,8 +451,9 @@ body {
   }
 
   .header__hot {
-    height: calc(100vw / (1840 / 120));
-    padding: calc(100vw / (1840 / 10)) calc(100vw / (1840 / 20));
+    height: calc(100vw / (1840 / 140));
+    padding-left: calc(100vw / (1840 / 20));
+    padding-right: calc(100vw / (1840 / 20));
     border-radius: calc(100vw / (1840 / 24));
   }
 
@@ -516,6 +515,10 @@ body {
     margin-right: 5px;
   }
 
+  .button-close__top-right {
+    margin: 10px;
+  }
+
   .popup__container {
     width: 340px;
     height: 440px;
@@ -558,8 +561,29 @@ body {
   }
 }
 
-@media screen and (max-width: 330px) {
-  .header__title {
-    display: none;
+@media screen and (max-width: 394px) {
+  .header__hot {
+    height: calc(100vw / (394 / 30));
+  }
+
+  .header__button {
+    width: calc(100vw / (394 / 30));
+    height: calc(100vw / (394 / 30));
+    border-radius: calc(100vw / (394 / 7.5));
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .popup__container {
+    width: 300px;
+    height: 440px;
+  }
+
+  .popup__textarea-copy {
+    width: 220px;
+  }
+
+  .popup__textarea {
+    width: 220px;
   }
 }
