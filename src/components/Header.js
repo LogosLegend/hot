@@ -74,7 +74,7 @@ export default function Header(props) {
         <h2 className="header__subtitle">{countingSumOfHot()}</h2>
       </div>
       {isOpenAddPopup && <AddWalletsPopup closeAllPopups={closeAllPopups} addWalletAddresses={props.addWalletAddresses}/>}
-      {isOpenDeletePopup && isWalletAddressesExist !== 0 && <DeleteWalletsPopup closeAllPopups={closeAllPopups} deleteWalletAddresses={props.deleteWalletAddresses} walletAddresses={walletAddresses}/>}
+      {isOpenDeletePopup && isWalletAddressesExist !== 0 && <DeleteWalletsPopup closeAllPopups={closeAllPopups} deleteWalletAddresses={props.deleteWalletAddresses} walletAddresses={walletAddresses} setAddress={props.setAddress}/>}
     </header>
   );
 }

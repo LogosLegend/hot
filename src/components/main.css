@@ -391,6 +391,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-top: 1px solid #e5e7eb;
 }
 
 .account-table__notification_error {
@@ -445,35 +446,35 @@ body {
   border-radius: 5px;
 }
 
-@media screen and (max-width: 1840px) {
+@media screen and (max-width: 1810px) {
   .account-table {
     width: calc((100vw - var(--scroll-width)) / 6);
   }
 
   .header__hot {
-    height: calc(100vw / (1840 / 140));
-    padding-left: calc(100vw / (1840 / 20));
-    padding-right: calc(100vw / (1840 / 20));
-    border-radius: calc(100vw / (1840 / 24));
+    height: calc(100vw / (1810 / 140));
+    padding-left: calc(100vw / (1810 / 20));
+    padding-right: calc(100vw / (1810 / 20));
+    border-radius: calc(100vw / (1810 / 24));
   }
 
   .header__title, .header__subtitle {
-    font-size: calc(100vw / (1840 / 120));
+    font-size: calc(100vw / (1810 / 120));
   }
 
   .header__img {
-    width: calc(100vw / (1840 / 120));
-    height: calc(100vw / (1840 / 120));
+    width: calc(100vw / (1810 / 120));
+    height: calc(100vw / (1810 / 120));
   }
 
   .header__button {
-    width: calc(100vw / (1840 / 40));
-    height: calc(100vw / (1840 / 40));
-    border-radius: calc(100vw / (1840 / 10));
+    width: calc(100vw / (1810 / 40));
+    height: calc(100vw / (1810 / 40));
+    border-radius: calc(100vw / (1810 / 10));
   }
 }
 
-@media screen and (max-width: 1570px) {
+@media screen and (max-width: 1550px) {
   .account-table {
     width: calc((100vw - var(--scroll-width)) / 5);
   }
@@ -496,13 +497,13 @@ body {
   }
 }
 
-@media screen and (max-width: 1030px) {
+@media screen and (max-width: 1040px) {
   .account-table {
     width: calc((100vw - var(--scroll-width)) / 3);
   }
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 780px) {
   .account-table {
     width: calc((100vw - var(--scroll-width)) / 2);
   }
@@ -561,15 +562,11 @@ body {
   }
 }
 
-@media screen and (max-width: 394px) {
-  .header__hot {
-    height: calc(100vw / (394 / 30));
-  }
-
+@media screen and (max-width: 388px) {
   .header__button {
-    width: calc(100vw / (394 / 30));
-    height: calc(100vw / (394 / 30));
-    border-radius: calc(100vw / (394 / 7.5));
+    width: calc(100vw / (388 / 30));
+    height: calc(100vw / (388 / 30));
+    border-radius: calc(100vw / (388 / 7.5));
   }
 }
 

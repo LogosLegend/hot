@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Header from './Header.js';
-import WalletCardList from './WalletCardList.js';
+import WalletCardsList from './WalletCardsList.js';
 import AccountErrorPopup from './AccountErrorPopup.js';
 
 export default function App() {
@@ -130,6 +130,11 @@ async function getDataAllProfiles(addresses) { //Сбор данных всех 
     return Promise.reject(res.status);
   }
 
+  function setAddress(address) { //Длинный адрес будет превращён в abcdef...uvwxyz.tg;
+    const length = address.length;
+    return length > 14 ? address.slice(0, 6) + '...' + address.slice(length - 6, length) : address;
+  }
+
   function creatingPreloader() {
     if (isPreloaderVisible) {
       return (
@@ -148,7 +153,7 @@ async function getDataAllProfiles(addresses) { //Сбор данных всех 
 
   function creatingWalletCards() {
     if (Object.keys(accountData).length) {
-      return <WalletCardList accountData={accountData}/>
+      return <WalletCardsList accountData={accountData} setAddress={setAddress}/>
     }
   }
 
@@ -156,6 +161,7 @@ async function getDataAllProfiles(addresses) { //Сбор данных всех 
     <>
       <Header
         accountData={accountData.accounts}
+        setAddress={setAddress}
         addWalletAddresses={addWalletAddresses}
         deleteWalletAddresses={deleteWalletAddresses}
         reload={setData}

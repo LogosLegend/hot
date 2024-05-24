@@ -8,7 +8,7 @@ export default function DeleteWalletsPopup(props) {
       <ul className="popup__addresses">
         {walletAddresses.map((address) => (
           <li key={address} className="popup__address-container">
-            <p className="popup__address">{address}</p>
+            <p className="popup__address">{props.setAddress(address)}</p>
             <button className="button-close popup__button-delete" onClick={() => props.deleteWalletAddresses(address)}></button>
           </li>
         ))}
